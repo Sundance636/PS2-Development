@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
 {
 
   // these two vectors will be initially allocated in EE memory 
-  uint32_t vec1[4] = {1, 2, 3, 4};
-  uint32_t vec2[4] = {10, 20, 30, 40};
+  uint32_t vec1[4] = {0x3F800000, 0x40000000, 0x40400000, 0x40800000};
+  uint32_t vec2[4] = {0x41200000, 0x41A00000, 0x41F00000, 0x42200000};
   
 
   // abitraritly chosen address, but it lies within the kernel
@@ -131,10 +131,208 @@ int main(int argc, char *argv[])
         //loop for synchronization, ends when the STR bit its unset in CHCR register
       }
 
+      //0x4A080000 (this should transfer 1 intruction to the base of the VIMicromem)
+      //leave num 0 to transfer 2048 bytes (FF *8?)
+      uint32_t vif_inst_packet2[8] = {
+        0x4A010001, //offset of 1 * 8 bytes for second instruction
+        0x01E20001, //loads the mem offset also 1*8 bytes
+        0x000002FF,
+        0x00000000
+      };
+      kernsrc[16] = vif_inst_packet2[0];
+      kernsrc[17] = vif_inst_packet2[1];
+      kernsrc[18] = vif_inst_packet2[2];
+      kernsrc[19] = 0;
+          D0_MADR = (0x00200000+(16*4));
+              D0_QWC = 1;
+
+// Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+
+
+      //NOPS
+//0x4A080000 (this should transfer 1 intruction to the base of the VIMicromem)
+      //leave num 0 to transfer 2048 bytes (FF *8?)
+      uint32_t vif_inst_packet22[8] = {
+        0x4A010002, //offset of 1 * 8 bytes for third instruction
+        0x000002FF, //loads the mem offset also 1*8 bytes
+        0x000002FF,
+        0x00000000
+      };
+      kernsrc[20] = vif_inst_packet22[0];
+      kernsrc[21] = vif_inst_packet22[1];
+      kernsrc[22] = vif_inst_packet22[2];
+      kernsrc[23] = 0;
+          D0_MADR = (0x00200000+(20*4));
+              D0_QWC = 1;
+
+// Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      kernsrc[20] += 1;
+      // Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+
+      //vector add instruction here dma it over
+
+      //0x4A080000 (this should transfer 1 intruction to the base of the VIMicromem)
+      //leave num 0 to transfer 2048 bytes (FF *8?)
+      uint32_t vif_inst_packet3[8] = {
+        0x4A01000C, //offset of 128 bytes for fourth instruction
+        0x000002FF,
+        0x01E208E8, //0000000 1111 00001 00010 00011 101000
+        0x00000000
+      };
+      kernsrc[24] = vif_inst_packet3[0];
+      kernsrc[25] = vif_inst_packet3[1];
+      kernsrc[26] = vif_inst_packet3[2];
+      kernsrc[27] = 0;
+          D0_MADR = (0x00200000+(24*4));
+              D0_QWC = 1;
+
+              
+
+// Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+
+
+ //nops
+      kernsrc[20] += 2;
+
+        D0_MADR = (0x00200000+(20*4));
+              D0_QWC = 1;
+
+// Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+
+      kernsrc[20] += 1;
+
+        D0_MADR = (0x00200000+(20*4));
+              D0_QWC = 1;
+
+// Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+           kernsrc[20] += 1;
+
+        D0_MADR = (0x00200000+(20*4));
+              D0_QWC = 1;
+
+// Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+      //try some store quad word instructions to wrtie back to VU data mem
+      //then see if i can inspect from EE
+      // 0000001 1111 00011 00000 0000001000
+      // 0000001 1111 00011 00011 00000000010
+      uint32_t vif_inst_packet4[8] = {
+        0x4A010010, //offset of 128 bytes for F-th instruction
+        0x03E31802,
+        0x000002FF, 
+        0x00000000
+      };
+      kernsrc[28] = vif_inst_packet4[0];
+      kernsrc[29] = vif_inst_packet4[1];
+      kernsrc[30] = vif_inst_packet4[2];
+      kernsrc[31] = 0;
+          D0_MADR = (0x00200000+(28*4));
+              D0_QWC = 1;
+
+
+// Start DMA.
+    *D0_CHCR = 0x101;
+    while (*D0_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }
+
+
       //use the MSCAL here to start the VU micro program
       uint32_t mscal_cmd = 0x14000000;
-      kernsrc[16] = mscal_cmd;
-      D0_MADR = (0x00200000+(16*4));
+      kernsrc[32] = mscal_cmd;
+      D0_MADR = (0x00200000+(32*4));
         D0_QWC = 1;
 
 
