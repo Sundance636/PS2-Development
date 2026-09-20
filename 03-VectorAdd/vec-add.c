@@ -17,8 +17,13 @@
 #define VIF0 0x10008000
 
 #define D0_CHCR ((volatile uint32_t *)0x10008000)
+#define D1_CHCR ((volatile uint32_t *)0x10009000)
 #define D0_MADR (*(volatile uint32_t *)0x10008010)
+#define D1_MADR (*(volatile uint32_t *)0x10009010)
+
 #define D0_QWC  (*(volatile uint32_t *)0x10008020)
+#define D1_QWC  (*(volatile uint32_t *)0x10009020)
+
 
 int main(int argc, char *argv[])
 {
@@ -343,6 +348,20 @@ int main(int argc, char *argv[])
         //loop for synchronization, ends when the STR bit its unset in CHCR register
       }
 
+/*
+      // copy back to EE mem from VU data mem via channel 1 (vif1?)
+      *D1_CHCR = 0x0100;
+      //physical address the DMAC must write to
+      D1_MADR = 0x00200000 + (36*4);
+      D1_QWC = 1;
+
+        while (*D1_CHCR & 0x100)
+      {
+        //loop for synchronization, ends when the STR bit its unset in CHCR register
+      }*/
+      //can just retrived the memory since its mapped and made accessible to the EE 
+      int* retval = (int*)0x00200090;
+      *retval = *((int*)0x11004020);
     while(1)
   {
       x++;
